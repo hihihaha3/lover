@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <title>Gửi em❤️</title>
+    <meta name="viewport" content="width=500, target-densitydpi=device-dpi, user-scalable=0" />
+    <link type="text/css" rel="stylesheet" href="http://web-file.360ab.cn/template/common.css?v=1.0.289" />
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            font-family: 'Kalam', cursive; /* Dùng font chữ viết tay cho toàn trang */
+        }
+        #openBtn {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 1.8rem;
+            background-color: #000;
+        }
+        #openBtn p {
+            margin: 0.8rem 0;
+            font-weight: bold;
+            text-align: center;
+            line-height: 2.5rem;
+        }
+        #openBtn img {
+            width: 8rem;
+            margin-bottom: 24px;
+            animation-name: heartbeat;
+            animation-duration: 1.5s;
+            animation-timing-function: cubic-bezier(0, 0, 0, 1.74);
+            animation-delay: 0.5s;
+            animation-iteration-count: infinite;
+            animation-play-state: running;
+            cursor: pointer;
+        }
+        #div_container {
+            width: 500px;
+            margin: 0 auto;
+            position: relative;
+            font-size: 1em;
+        }
+        #video1 {
+            display: none;
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            width: 100%;
+            object-fit: fill;
+            /* Transform sẽ được thêm bằng JS để căn giữa */
+        }
+        .type_words {
+            font-size: 1.5rem;
+            line-height: 2.5rem;
+            color: #fff;
+            padding: 2rem;
+            display: none;
+            text-shadow: 2px 2px 4px #000;
+        }
+        .bg img {
+            width: 100%;
+            background-repeat: repeat;
+            background-position: center;
+            opacity: 0;
+        }
+        .centered-div {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+            z-index: 999;
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+        }
+        #top-name {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff69b4;
+            font-size: 2.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+            font-family: 'Kalam', cursive;
+            animation: none;
+        }
+        @keyframes slightJump {
+            0% { transform: translateX(-50%) translateY(0); }
+            100% { transform: translateX(-50%) translateY(-7px); }
+        }
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 2.5rem;
+            background-color: #ff69b4;
+            animation: blink 0.8s infinite;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body style="overflow-x: hidden; overflow-y: hidden; background: #000">
+    <div id="div_container">
+        <div id="openBtn">
+            <p>Gửi em  ❤️<br>(Nhấn vào trái tim nhé)</p>
+            <img src="https://sozaino.site/wp-content/uploads/2024/03/samunelove.png" />
+        </div>
+
+        <div class="bg">
+            <div id="top-name"></div>
+            <video id="video1" src="https://alimov2.a.kwimgs.com/upic/2024/05/08/12/BMjAyNDA1MDgxMjIyMDdfMzAyOTc4ODMzNF8xMzE4NzI4MDcyNDVfMF8z_b_B9c2427ae093cdbb9922763dfed1a6f8a.mp4" loop preload="auto" muted="true">
+                <source type="video/mp4" />
+            </video>
+            
+            <div id="text" class="boxText" style="display: none">
+                Gửi cô gái xinh đẹp nhất trong lòng tớ! Mỗi ngày trôi qua, nụ cười của cậu lại làm cho thế giới của tớ thêm tươi sáng. Mong rằng món quà nhỏ này sẽ làm cậu vui. Yêu cậu! ❤️
+            </div>
+
+            <div class="type_words" id="contents"></div>
+            <div class="centered-div" style="display: none">
+                <p class="animated-text"></p>
+            </div>
+            <img src="https://p3-search.byteimg.com/obj/labis/3498727a4b2892b982b3085651630b1b" alt="background" class="tmtp" />
+        </div>
+    </div>
+
+    <audio id="audio_music" src="music.mp4" loop="loop"></audio>
+
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        function typeName() {
+    const nameElement = document.getElementById('top-name');
+    const name = "Tèn ten ten ten";
+    let i = 0;
+    nameElement.innerHTML = '';
+
+    const typingInterval = setInterval(() => {
+        if (i < name.length) {
+            nameElement.innerHTML = name.substring(0, i + 1) + '<span class="typing-cursor"></span>';
+            i++;
+        } else {
+            // KHI GÕ XONG
+            clearInterval(typingInterval);
+            nameElement.innerHTML = name; // Hiển thị tên đầy đủ
+            nameElement.style.animation = 'slightJump 2s ease-in-out infinite alternate';
+
+            // === CODE MỚI: ĐỢI 2 GIÂY RỒI LÀM MỜ TÊN ĐI ===
+            setTimeout(() => {
+                nameElement.style.opacity = '0'; // Bắt đầu làm mờ
+            }, 2000); // 2000ms = 2 giây. Bạn có thể thay đổi thời gian chờ ở đây.
+        }
+    }, 250);
+}
+        function printText() {
+            let str = $("#text").html();
+            let str_ = "";
+            let i = 0;
+            let content = document.getElementById("contents");
+            
+            $(".type_words")
+                .css("position", "absolute")
+                .css("z-index", "9999")
+                .show();
+
+            let timer = setInterval(() => {
+                if (str_.length < str.length) {
+                    str_ += str[i++];
+                    content.innerHTML = '<p>' + str_ + '<span style="opacity: 1;color: red; animation: heartbeat 1.5s infinite;">❤️</span></p>';
+                } else {
+                    clearInterval(timer);
+                    content.innerHTML = '<p>' + str_ + '</p>';
+                }
+            }, 150);
+        }
+
+        $("#openBtn").click(function () {
+            // 1. Phát nhạc, video và ẩn màn hình chờ
+            $('#audio_music')[0].play();
+            $("video")[0].play();
+            $("#openBtn").fadeOut(1000);
+
+            // 2. Hiển thị video và tên
+            $("#video1").show();
+            
+            // !!! FIX: DÒNG QUAN TRỌNG ĐỂ CĂN GIỮA VIDEO ĐÃ ĐƯỢC THÊM LẠI !!!
+            // Dòng này dịch chuyển video về lại 50% chiều rộng và 50% chiều cao của chính nó,
+            // giúp video nằm ngay chính giữa màn hình.
+            $("#video1").css("transform", "translate(-50%, -50%)");
+
+            $('#top-name').show();
+
+            // 3. Bắt đầu gõ tên "Phương Thảo"
+            typeName();
+
+            // 4. Đợi một chút rồi mới bắt đầu gõ lời nhắn
+            setTimeout(function() {
+                printText();
+            }, 3500);
+        });
+    </script>
+</body>
+</html>
